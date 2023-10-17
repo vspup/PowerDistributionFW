@@ -177,9 +177,9 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  if(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) == 0)
-	  {
-		  greenLEDState =0;
+	  //if(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) == 0)
+	  //{
+		 /* greenLEDState =0;
 		  HAL_Delay(10);
 		  LL_GPIO_ResetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
 		  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
@@ -190,10 +190,10 @@ int main(void)
 		  HAL_Delay(600);
 		  LL_GPIO_ResetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
 		  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
-		  LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);
+		  LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);*/
 		  //HAL_Delay(300);
 		  //if( (counterSwitch > TIME_SWITCH_PRESSHED)&&(leaveSwitch == 0) )
-		  {
+		  //{
 
 			 /* if(stateSwitch == 0)
 			  {
@@ -268,7 +268,7 @@ int main(void)
 			  }
 
 			  //leaveSwitch = 1;
-		  }
+	/*	  }
 	  }
 	  else
 	  {
@@ -283,7 +283,7 @@ int main(void)
 		  HAL_Delay(50);
 		  cntPwrOff = 0;
 		  greenLEDState = 2;
-	  }
+	  }*/
   }
   /* USER CODE END 3 */
 }
