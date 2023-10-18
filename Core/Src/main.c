@@ -257,7 +257,7 @@ int main(void)
 						  LL_GPIO_SetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
 						  HAL_Delay(TIME_PRECHARGE_OFF);
 						  LL_GPIO_SetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
-						  HAL_Delay(CYCLES_TIME_ON  * 60);
+						  HAL_Delay(CYCLES_TIME_ON  * 1000);
 
 					  }
 					  else
@@ -267,7 +267,7 @@ int main(void)
 						  HAL_Delay(TIME_PRECHARGE_OFF);
 						  LL_GPIO_ResetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
 						  greenLEDState = 1;
-						  HAL_Delay(CYCLES_TIME_OFF  * 60);
+						  HAL_Delay(CYCLES_TIME_OFF  * 1000);
 					  }
 					  leaveSwitch = 1;
 				  }
