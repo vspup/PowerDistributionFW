@@ -21,7 +21,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#define N_LOOP_CYCLES  (5)   // cyles
+#define N_TIME_CYCLES   2  //  min
+#define TIME_PRECHARGE_OFF     2000  // msec
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -97,7 +99,7 @@ void LED_GreenHandler (void)
 	}
 }
 uint8_t cntPwrOff = 0;
-
+uint32_t loop_cnt = 0;
 /* USER CODE END 0 */
 
 /**
@@ -167,10 +169,17 @@ int main(void)
   LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
   LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);
   counterSwitch = 0;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+  while(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) != 0)
+  {
+
+  }
+
   while (1)
   {
     /* USER CODE END WHILE */
@@ -234,9 +243,9 @@ int main(void)
 				  }
 			  }*/
 
-			  if(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) == 0)
+			  //if(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) == 0)
 			  {
-				  if( (counterSwitch > TIME_SWITCH_PRESSHED)&&(leaveSwitch == 0) )
+				  //if( (counterSwitch > TIME_SWITCH_PRESSHED)&&(leaveSwitch == 0) )
 				  {
 					  stateSwitch ^= 1;
 
@@ -245,7 +254,7 @@ int main(void)
 						  greenLEDState = 2;
 						  LL_GPIO_SetOutputPin(EN_12V_GPIO_Port, EN_12V_Pin);
 						  LL_GPIO_SetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
-						  HAL_Delay(2000);
+						  HAL_Delay(TIME_PRECHARGE_OFF);
 						  LL_GPIO_SetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
 
 
@@ -254,18 +263,34 @@ int main(void)
 					  {
 						  LL_GPIO_ResetOutputPin(EN_12V_GPIO_Port, EN_12V_Pin);
 						  LL_GPIO_ResetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
-						  HAL_Delay(2000);
+						  HAL_Delay(TIME_PRECHARGE_OFF);
 						  LL_GPIO_ResetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
 						  greenLEDState = 1;
 					  }
 					  leaveSwitch = 1;
 				  }
 			  }
-			  else
+			  HAL_Delay(N_TIME_CYCLES * 1000 * 60);
+			  loop_cnt++;
+			  if(loop_cnt >= (N_LOOP_CYCLES * 2))
+			  {
+				  greenLEDState = 0;
+				  HAL_Delay(10);
+				  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
+
+				  while(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) != 0)
+				  {
+                  }
+
+				  loop_cnt = 0;
+				  //while(1);
+
+			  }
+			  /*else
 			  {
 				  counterSwitch = 0;
 				  leaveSwitch   = 0;
-			  }
+			  }*/
 
 			  //leaveSwitch = 1;
 	/*	  }
