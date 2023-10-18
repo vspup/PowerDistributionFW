@@ -21,8 +21,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#define N_LOOP_CYCLES  (5)   // cyles
-#define N_TIME_CYCLES   2  //  min
+#define N_LOOP_CYCLES     (5)   // cyles
+#define CYCLES_TIME_ON    20  //  sec
+#define CYCLES_TIME_OFF   40  //  sec
 #define TIME_PRECHARGE_OFF     2000  // msec
 /* USER CODE END Includes */
 
@@ -256,7 +257,7 @@ int main(void)
 						  LL_GPIO_SetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
 						  HAL_Delay(TIME_PRECHARGE_OFF);
 						  LL_GPIO_SetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
-
+						  HAL_Delay(CYCLES_TIME_ON  * 60);
 
 					  }
 					  else
@@ -266,13 +267,14 @@ int main(void)
 						  HAL_Delay(TIME_PRECHARGE_OFF);
 						  LL_GPIO_ResetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
 						  greenLEDState = 1;
+						  HAL_Delay(CYCLES_TIME_OFF  * 60);
 					  }
 					  leaveSwitch = 1;
 				  }
 			  }
-			  HAL_Delay(N_TIME_CYCLES * 1000 * 60);
+
 			  loop_cnt++;
-			  if(loop_cnt >= (N_LOOP_CYCLES * 2))
+			  if(loop_cnt >= (N_LOOP_CYCLES))
 			  {
 				  greenLEDState = 0;
 				  HAL_Delay(10);
