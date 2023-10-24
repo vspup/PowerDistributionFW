@@ -163,7 +163,7 @@ int main(void)
 
   }
   //LL_GPIO_SetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
-  HAL_Delay(TIME_PRECHARGE_OFF);
+  HAL_Delay(2000);
   //LL_GPIO_SetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
   greenLEDState = 1;
   LL_GPIO_ResetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
