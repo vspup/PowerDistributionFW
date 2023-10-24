@@ -176,10 +176,10 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  while(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) != 0)
+  /*while(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) != 0)
   {
 
-  }
+  }*/
 
   while (1)
   {
