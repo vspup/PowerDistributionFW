@@ -244,9 +244,9 @@ int main(void)
 				  }
 			  }*/
 
-			  //if(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) == 0)
+			  if(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) == 0)
 			  {
-				  //if( (counterSwitch > TIME_SWITCH_PRESSHED)&&(leaveSwitch == 0) )
+				  if( (counterSwitch > TIME_SWITCH_PRESSHED)&&(leaveSwitch == 0) )
 				  {
 					  stateSwitch ^= 1;
 
@@ -257,7 +257,7 @@ int main(void)
 						  LL_GPIO_SetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
 						  HAL_Delay(TIME_PRECHARGE_OFF);
 						  LL_GPIO_SetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
-						  HAL_Delay(CYCLES_TIME_ON  * 1000);
+						  //HAL_Delay(CYCLES_TIME_ON  * 1000);
 
 					  }
 					  else
@@ -272,8 +272,13 @@ int main(void)
 					  leaveSwitch = 1;
 				  }
 			  }
+			  else
+			  {
+				  counterSwitch = 0;
+				  leaveSwitch   = 0;
+			  }
 
-			  loop_cnt++;
+			  /*loop_cnt++;
 			  if(loop_cnt >= (N_LOOP_CYCLES))
 			  {
 				  greenLEDState = 0;
@@ -285,14 +290,10 @@ int main(void)
                   }
 
 				  loop_cnt = 0;
-				  //while(1);
+				  //while(1);*/
 
-			  }
-			  /*else
-			  {
-				  counterSwitch = 0;
-				  leaveSwitch   = 0;
-			  }*/
+}
+		
 
 			  //leaveSwitch = 1;
 	/*	  }
