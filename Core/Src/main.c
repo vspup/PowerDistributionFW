@@ -21,10 +21,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+// version 1.0.1
 #define N_LOOP_CYCLES     (5)   // cyles
 #define CYCLES_TIME_ON    20  //  sec
 #define CYCLES_TIME_OFF   40  //  sec
-#define TIME_PRECHARGE_OFF     2000  // msec
+#define TIME_PRECHARGE_OFF     5000  // msec
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -176,7 +177,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  /*while(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) != 0)
+ /* while(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) != 0)
   {
 
   }*/
@@ -272,11 +273,6 @@ int main(void)
 					  leaveSwitch = 1;
 				  }
 			  }
-			  else
-			  {
-				  counterSwitch = 0;
-				  leaveSwitch   = 0;
-			  }
 
 			  /*loop_cnt++;
 			  if(loop_cnt >= (N_LOOP_CYCLES))
@@ -290,10 +286,14 @@ int main(void)
                   }
 
 				  loop_cnt = 0;
-				  //while(1);*/
+				  //while(1);
 
-}
-		
+			  }*/
+			  else
+			  {
+				  counterSwitch = 0;
+				  leaveSwitch   = 0;
+			  }
 
 			  //leaveSwitch = 1;
 	/*	  }
