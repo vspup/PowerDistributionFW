@@ -256,15 +256,14 @@ int main(void)
 						  LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);
 					  }
 
-				  }
-				  else
-				  {
 					  LL_GPIO_ResetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
 					  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
 					  LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);
 					  counterSwitch = 0;
 					  leaveSwitch   = 0;
+
 				  }
+
 
 				  if( (counterSwitch > TIME_SWITCH_PRESSHED)&&(leaveSwitch == 0) )
 				  {

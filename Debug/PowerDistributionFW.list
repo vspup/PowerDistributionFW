@@ -39,13 +39,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_macro  00014f0d  00000000  00000000  0002d091  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   0000ad37  00000000  00000000  00041f9e  2**0
+ 18 .debug_line   0000ad35  00000000  00000000  00041f9e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000840b8  00000000  00000000  0004ccd5  2**0
+ 19 .debug_str    000840b8  00000000  00000000  0004ccd3  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_frame  00001e28  00000000  00000000  000d0d90  2**2
+ 20 .debug_frame  00001e28  00000000  00000000  000d0d8c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000052  00000000  00000000  000d2bb8  2**0
+ 21 .debug_line_str 00000052  00000000  00000000  000d2bb4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1232,7 +1232,7 @@ int main(void)
  80007e4:	f7ff fef6 	bl	80005d4 <LL_GPIO_IsInputPinSet>
  80007e8:	1e03      	subs	r3, r0, #0
  80007ea:	d000      	beq.n	80007ee <main+0xfa>
- 80007ec:	e07f      	b.n	80008ee <main+0x1fa>
+ 80007ec:	e07e      	b.n	80008ec <main+0x1f8>
 			  {
 				  if(LL_GPIO_IsInputPinSet(RD_EN_GPIO_Port, RD_EN_Pin) == 0)
  80007ee:	4b43      	ldr	r3, [pc, #268]	; (80008fc <main+0x208>)
@@ -1240,7 +1240,7 @@ int main(void)
  80007f2:	0018      	movs	r0, r3
  80007f4:	f7ff feee 	bl	80005d4 <LL_GPIO_IsInputPinSet>
  80007f8:	1e03      	subs	r3, r0, #0
- 80007fa:	d11b      	bne.n	8000834 <main+0x140>
+ 80007fa:	d133      	bne.n	8000864 <main+0x170>
 				  {
 					  while(LL_GPIO_IsInputPinSet(RD_EN_GPIO_Port,RD_EN_Pin) == 0)
  80007fc:	e012      	b.n	8000824 <main+0x130>
@@ -1271,141 +1271,140 @@ int main(void)
  800082a:	f7ff fed3 	bl	80005d4 <LL_GPIO_IsInputPinSet>
  800082e:	1e03      	subs	r3, r0, #0
  8000830:	d0e5      	beq.n	80007fe <main+0x10a>
- 8000832:	e018      	b.n	8000866 <main+0x172>
 					  }
 
-				  }
-				  else
-				  {
 					  LL_GPIO_ResetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
- 8000834:	4b31      	ldr	r3, [pc, #196]	; (80008fc <main+0x208>)
- 8000836:	2180      	movs	r1, #128	; 0x80
- 8000838:	0018      	movs	r0, r3
- 800083a:	f7ff feea 	bl	8000612 <LL_GPIO_ResetOutputPin>
+ 8000832:	4b32      	ldr	r3, [pc, #200]	; (80008fc <main+0x208>)
+ 8000834:	2180      	movs	r1, #128	; 0x80
+ 8000836:	0018      	movs	r0, r3
+ 8000838:	f7ff feeb 	bl	8000612 <LL_GPIO_ResetOutputPin>
 					  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
- 800083e:	2380      	movs	r3, #128	; 0x80
- 8000840:	005b      	lsls	r3, r3, #1
- 8000842:	4a2e      	ldr	r2, [pc, #184]	; (80008fc <main+0x208>)
- 8000844:	0019      	movs	r1, r3
- 8000846:	0010      	movs	r0, r2
- 8000848:	f7ff fee3 	bl	8000612 <LL_GPIO_ResetOutputPin>
+ 800083c:	2380      	movs	r3, #128	; 0x80
+ 800083e:	005b      	lsls	r3, r3, #1
+ 8000840:	4a2e      	ldr	r2, [pc, #184]	; (80008fc <main+0x208>)
+ 8000842:	0019      	movs	r1, r3
+ 8000844:	0010      	movs	r0, r2
+ 8000846:	f7ff fee4 	bl	8000612 <LL_GPIO_ResetOutputPin>
 					  LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);
- 800084c:	2380      	movs	r3, #128	; 0x80
- 800084e:	009b      	lsls	r3, r3, #2
- 8000850:	4a2a      	ldr	r2, [pc, #168]	; (80008fc <main+0x208>)
- 8000852:	0019      	movs	r1, r3
- 8000854:	0010      	movs	r0, r2
- 8000856:	f7ff fedc 	bl	8000612 <LL_GPIO_ResetOutputPin>
+ 800084a:	2380      	movs	r3, #128	; 0x80
+ 800084c:	009b      	lsls	r3, r3, #2
+ 800084e:	4a2b      	ldr	r2, [pc, #172]	; (80008fc <main+0x208>)
+ 8000850:	0019      	movs	r1, r3
+ 8000852:	0010      	movs	r0, r2
+ 8000854:	f7ff fedd 	bl	8000612 <LL_GPIO_ResetOutputPin>
 					  counterSwitch = 0;
- 800085a:	4b2a      	ldr	r3, [pc, #168]	; (8000904 <main+0x210>)
- 800085c:	2200      	movs	r2, #0
- 800085e:	601a      	str	r2, [r3, #0]
+ 8000858:	4b2a      	ldr	r3, [pc, #168]	; (8000904 <main+0x210>)
+ 800085a:	2200      	movs	r2, #0
+ 800085c:	601a      	str	r2, [r3, #0]
 					  leaveSwitch   = 0;
- 8000860:	4b2a      	ldr	r3, [pc, #168]	; (800090c <main+0x218>)
- 8000862:	2200      	movs	r2, #0
- 8000864:	701a      	strb	r2, [r3, #0]
+ 800085e:	4b2b      	ldr	r3, [pc, #172]	; (800090c <main+0x218>)
+ 8000860:	2200      	movs	r2, #0
+ 8000862:	701a      	strb	r2, [r3, #0]
+
 				  }
+
 
 				  if( (counterSwitch > TIME_SWITCH_PRESSHED)&&(leaveSwitch == 0) )
- 8000866:	4b27      	ldr	r3, [pc, #156]	; (8000904 <main+0x210>)
- 8000868:	681a      	ldr	r2, [r3, #0]
- 800086a:	23fa      	movs	r3, #250	; 0xfa
- 800086c:	009b      	lsls	r3, r3, #2
- 800086e:	429a      	cmp	r2, r3
- 8000870:	d9b3      	bls.n	80007da <main+0xe6>
- 8000872:	4b26      	ldr	r3, [pc, #152]	; (800090c <main+0x218>)
- 8000874:	781b      	ldrb	r3, [r3, #0]
- 8000876:	2b00      	cmp	r3, #0
- 8000878:	d1af      	bne.n	80007da <main+0xe6>
+ 8000864:	4b27      	ldr	r3, [pc, #156]	; (8000904 <main+0x210>)
+ 8000866:	681a      	ldr	r2, [r3, #0]
+ 8000868:	23fa      	movs	r3, #250	; 0xfa
+ 800086a:	009b      	lsls	r3, r3, #2
+ 800086c:	429a      	cmp	r2, r3
+ 800086e:	d9b4      	bls.n	80007da <main+0xe6>
+ 8000870:	4b26      	ldr	r3, [pc, #152]	; (800090c <main+0x218>)
+ 8000872:	781b      	ldrb	r3, [r3, #0]
+ 8000874:	2b00      	cmp	r3, #0
+ 8000876:	d1b0      	bne.n	80007da <main+0xe6>
 				  {
 					  stateSwitch ^= 1;
- 800087a:	4b25      	ldr	r3, [pc, #148]	; (8000910 <main+0x21c>)
- 800087c:	781b      	ldrb	r3, [r3, #0]
- 800087e:	2201      	movs	r2, #1
- 8000880:	4053      	eors	r3, r2
- 8000882:	b2da      	uxtb	r2, r3
- 8000884:	4b22      	ldr	r3, [pc, #136]	; (8000910 <main+0x21c>)
- 8000886:	701a      	strb	r2, [r3, #0]
+ 8000878:	4b25      	ldr	r3, [pc, #148]	; (8000910 <main+0x21c>)
+ 800087a:	781b      	ldrb	r3, [r3, #0]
+ 800087c:	2201      	movs	r2, #1
+ 800087e:	4053      	eors	r3, r2
+ 8000880:	b2da      	uxtb	r2, r3
+ 8000882:	4b23      	ldr	r3, [pc, #140]	; (8000910 <main+0x21c>)
+ 8000884:	701a      	strb	r2, [r3, #0]
 
 					  if(stateSwitch)
- 8000888:	4b21      	ldr	r3, [pc, #132]	; (8000910 <main+0x21c>)
- 800088a:	781b      	ldrb	r3, [r3, #0]
- 800088c:	2b00      	cmp	r3, #0
- 800088e:	d015      	beq.n	80008bc <main+0x1c8>
+ 8000886:	4b22      	ldr	r3, [pc, #136]	; (8000910 <main+0x21c>)
+ 8000888:	781b      	ldrb	r3, [r3, #0]
+ 800088a:	2b00      	cmp	r3, #0
+ 800088c:	d015      	beq.n	80008ba <main+0x1c6>
 					  {
 						  greenLEDState = 2;
- 8000890:	4b1b      	ldr	r3, [pc, #108]	; (8000900 <main+0x20c>)
- 8000892:	2202      	movs	r2, #2
- 8000894:	701a      	strb	r2, [r3, #0]
+ 800088e:	4b1c      	ldr	r3, [pc, #112]	; (8000900 <main+0x20c>)
+ 8000890:	2202      	movs	r2, #2
+ 8000892:	701a      	strb	r2, [r3, #0]
 						  //LL_GPIO_SetOutputPin(EN_12V_GPIO_Port, EN_12V_Pin);
 						  LL_GPIO_SetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
- 8000896:	2380      	movs	r3, #128	; 0x80
- 8000898:	011b      	lsls	r3, r3, #4
- 800089a:	4a18      	ldr	r2, [pc, #96]	; (80008fc <main+0x208>)
- 800089c:	0019      	movs	r1, r3
- 800089e:	0010      	movs	r0, r2
- 80008a0:	f7ff feab 	bl	80005fa <LL_GPIO_SetOutputPin>
+ 8000894:	2380      	movs	r3, #128	; 0x80
+ 8000896:	011b      	lsls	r3, r3, #4
+ 8000898:	4a18      	ldr	r2, [pc, #96]	; (80008fc <main+0x208>)
+ 800089a:	0019      	movs	r1, r3
+ 800089c:	0010      	movs	r0, r2
+ 800089e:	f7ff feac 	bl	80005fa <LL_GPIO_SetOutputPin>
 						  HAL_Delay(TIME_PRECHARGE_OFF);
- 80008a4:	4b1b      	ldr	r3, [pc, #108]	; (8000914 <main+0x220>)
- 80008a6:	0018      	movs	r0, r3
- 80008a8:	f000 fb3e 	bl	8000f28 <HAL_Delay>
+ 80008a2:	4b1c      	ldr	r3, [pc, #112]	; (8000914 <main+0x220>)
+ 80008a4:	0018      	movs	r0, r3
+ 80008a6:	f000 fb3f 	bl	8000f28 <HAL_Delay>
 						  LL_GPIO_SetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
- 80008ac:	2380      	movs	r3, #128	; 0x80
- 80008ae:	00db      	lsls	r3, r3, #3
- 80008b0:	4a12      	ldr	r2, [pc, #72]	; (80008fc <main+0x208>)
- 80008b2:	0019      	movs	r1, r3
- 80008b4:	0010      	movs	r0, r2
- 80008b6:	f7ff fea0 	bl	80005fa <LL_GPIO_SetOutputPin>
- 80008ba:	e014      	b.n	80008e6 <main+0x1f2>
+ 80008aa:	2380      	movs	r3, #128	; 0x80
+ 80008ac:	00db      	lsls	r3, r3, #3
+ 80008ae:	4a13      	ldr	r2, [pc, #76]	; (80008fc <main+0x208>)
+ 80008b0:	0019      	movs	r1, r3
+ 80008b2:	0010      	movs	r0, r2
+ 80008b4:	f7ff fea1 	bl	80005fa <LL_GPIO_SetOutputPin>
+ 80008b8:	e014      	b.n	80008e4 <main+0x1f0>
 
 					  }
 					  else
 					  {
 						  //LL_GPIO_ResetOutputPin(EN_12V_GPIO_Port, EN_12V_Pin);
 						  LL_GPIO_ResetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
- 80008bc:	2380      	movs	r3, #128	; 0x80
- 80008be:	011b      	lsls	r3, r3, #4
- 80008c0:	4a0e      	ldr	r2, [pc, #56]	; (80008fc <main+0x208>)
- 80008c2:	0019      	movs	r1, r3
- 80008c4:	0010      	movs	r0, r2
- 80008c6:	f7ff fea4 	bl	8000612 <LL_GPIO_ResetOutputPin>
+ 80008ba:	2380      	movs	r3, #128	; 0x80
+ 80008bc:	011b      	lsls	r3, r3, #4
+ 80008be:	4a0f      	ldr	r2, [pc, #60]	; (80008fc <main+0x208>)
+ 80008c0:	0019      	movs	r1, r3
+ 80008c2:	0010      	movs	r0, r2
+ 80008c4:	f7ff fea5 	bl	8000612 <LL_GPIO_ResetOutputPin>
 						  HAL_Delay(TIME_PRECHARGE_OFF);
- 80008ca:	4b12      	ldr	r3, [pc, #72]	; (8000914 <main+0x220>)
- 80008cc:	0018      	movs	r0, r3
- 80008ce:	f000 fb2b 	bl	8000f28 <HAL_Delay>
+ 80008c8:	4b12      	ldr	r3, [pc, #72]	; (8000914 <main+0x220>)
+ 80008ca:	0018      	movs	r0, r3
+ 80008cc:	f000 fb2c 	bl	8000f28 <HAL_Delay>
 						  LL_GPIO_ResetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
- 80008d2:	2380      	movs	r3, #128	; 0x80
- 80008d4:	00db      	lsls	r3, r3, #3
- 80008d6:	4a09      	ldr	r2, [pc, #36]	; (80008fc <main+0x208>)
- 80008d8:	0019      	movs	r1, r3
- 80008da:	0010      	movs	r0, r2
- 80008dc:	f7ff fe99 	bl	8000612 <LL_GPIO_ResetOutputPin>
+ 80008d0:	2380      	movs	r3, #128	; 0x80
+ 80008d2:	00db      	lsls	r3, r3, #3
+ 80008d4:	4a09      	ldr	r2, [pc, #36]	; (80008fc <main+0x208>)
+ 80008d6:	0019      	movs	r1, r3
+ 80008d8:	0010      	movs	r0, r2
+ 80008da:	f7ff fe9a 	bl	8000612 <LL_GPIO_ResetOutputPin>
 						  greenLEDState = 1;
- 80008e0:	4b07      	ldr	r3, [pc, #28]	; (8000900 <main+0x20c>)
- 80008e2:	2201      	movs	r2, #1
- 80008e4:	701a      	strb	r2, [r3, #0]
+ 80008de:	4b08      	ldr	r3, [pc, #32]	; (8000900 <main+0x20c>)
+ 80008e0:	2201      	movs	r2, #1
+ 80008e2:	701a      	strb	r2, [r3, #0]
 						  //HAL_Delay(CYCLES_TIME_OFF  * 1000);
 					  }
 					  leaveSwitch = 1;
- 80008e6:	4b09      	ldr	r3, [pc, #36]	; (800090c <main+0x218>)
- 80008e8:	2201      	movs	r2, #1
- 80008ea:	701a      	strb	r2, [r3, #0]
- 80008ec:	e775      	b.n	80007da <main+0xe6>
+ 80008e4:	4b09      	ldr	r3, [pc, #36]	; (800090c <main+0x218>)
+ 80008e6:	2201      	movs	r2, #1
+ 80008e8:	701a      	strb	r2, [r3, #0]
+ 80008ea:	e776      	b.n	80007da <main+0xe6>
 				  //while(1);
 
 			  }*/
 			  else
 			  {
 				  counterSwitch = 0;
- 80008ee:	4b05      	ldr	r3, [pc, #20]	; (8000904 <main+0x210>)
- 80008f0:	2200      	movs	r2, #0
- 80008f2:	601a      	str	r2, [r3, #0]
+ 80008ec:	4b05      	ldr	r3, [pc, #20]	; (8000904 <main+0x210>)
+ 80008ee:	2200      	movs	r2, #0
+ 80008f0:	601a      	str	r2, [r3, #0]
 				  leaveSwitch   = 0;
- 80008f4:	4b05      	ldr	r3, [pc, #20]	; (800090c <main+0x218>)
- 80008f6:	2200      	movs	r2, #0
- 80008f8:	701a      	strb	r2, [r3, #0]
+ 80008f2:	4b06      	ldr	r3, [pc, #24]	; (800090c <main+0x218>)
+ 80008f4:	2200      	movs	r2, #0
+ 80008f6:	701a      	strb	r2, [r3, #0]
 			  if(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) == 0)
- 80008fa:	e76e      	b.n	80007da <main+0xe6>
+ 80008f8:	e76f      	b.n	80007da <main+0xe6>
+ 80008fa:	46c0      	nop			; (mov r8, r8)
  80008fc:	50000400 	.word	0x50000400
  8000900:	200000c8 	.word	0x200000c8
  8000904:	200000bc 	.word	0x200000bc
