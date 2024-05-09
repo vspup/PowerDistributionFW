@@ -247,6 +247,25 @@ int main(void)
 
 			  if(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) == 0)
 			  {
+				  if(LL_GPIO_IsInputPinSet(RD_EN_GPIO_Port, RD_EN_Pin) == 0)
+				  {
+					  while(LL_GPIO_IsInputPinSet(RD_EN_GPIO_Port,RD_EN_Pin) == 0)
+					  {
+						  LL_GPIO_SetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
+						  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
+						  LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);
+					  }
+
+				  }
+				  else
+				  {
+					  LL_GPIO_ResetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
+					  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
+					  LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);
+					  counterSwitch = 0;
+					  leaveSwitch   = 0;
+				  }
+
 				  if( (counterSwitch > TIME_SWITCH_PRESSHED)&&(leaveSwitch == 0) )
 				  {
 					  stateSwitch ^= 1;
@@ -254,7 +273,7 @@ int main(void)
 					  if(stateSwitch)
 					  {
 						  greenLEDState = 2;
-						  LL_GPIO_SetOutputPin(EN_12V_GPIO_Port, EN_12V_Pin);
+						  //LL_GPIO_SetOutputPin(EN_12V_GPIO_Port, EN_12V_Pin);
 						  LL_GPIO_SetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
 						  HAL_Delay(TIME_PRECHARGE_OFF);
 						  LL_GPIO_SetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
@@ -263,7 +282,7 @@ int main(void)
 					  }
 					  else
 					  {
-						  LL_GPIO_ResetOutputPin(EN_12V_GPIO_Port, EN_12V_Pin);
+						  //LL_GPIO_ResetOutputPin(EN_12V_GPIO_Port, EN_12V_Pin);
 						  LL_GPIO_ResetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
 						  HAL_Delay(TIME_PRECHARGE_OFF);
 						  LL_GPIO_ResetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
@@ -431,9 +450,6 @@ static void MX_GPIO_Init(void)
   LL_GPIO_ResetOutputPin(DE2_GPIO_Port, DE2_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(EN_12V_GPIO_Port, EN_12V_Pin);
-
-  /**/
   LL_GPIO_ResetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
 
   /**/
@@ -466,12 +482,10 @@ static void MX_GPIO_Init(void)
   LL_GPIO_Init(DE2_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = EN_12V_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  LL_GPIO_Init(EN_12V_GPIO_Port, &GPIO_InitStruct);
+  GPIO_InitStruct.Pin = RD_EN_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+  LL_GPIO_Init(RD_EN_GPIO_Port, &GPIO_InitStruct);
 
   /**/
   GPIO_InitStruct.Pin = PRECHRG_Pin;

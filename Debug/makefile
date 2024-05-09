@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (10.3-2021.10)
+# Toolchain: GNU Tools for STM32 (11.3.rel1)
 ################################################################################
 
 -include ../makefile.init
@@ -60,8 +60,8 @@ all: main-build
 main-build: PowerDistributionFW.elf secondary-outputs
 
 # Tool invocations
-PowerDistributionFW.elf PowerDistributionFW.map: $(OBJS) $(USER_OBJS) C:\Users\Yurii\STM32CubeIDE\workspace_1.9.0\PowerDistributionFW\STM32G070CBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "PowerDistributionFW.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"C:\Users\Yurii\STM32CubeIDE\workspace_1.9.0\PowerDistributionFW\STM32G070CBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="PowerDistributionFW.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+PowerDistributionFW.elf PowerDistributionFW.map: $(OBJS) $(USER_OBJS) C:\ProjectsGits\PowerDistributionFW\STM32G070CBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "PowerDistributionFW.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"C:\ProjectsGits\PowerDistributionFW\STM32G070CBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="PowerDistributionFW.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

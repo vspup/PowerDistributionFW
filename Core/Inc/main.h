@@ -74,8 +74,8 @@ void Error_Handler(void);
 #define SWITCH_GPIO_Port GPIOC
 #define DE2_Pin LL_GPIO_PIN_1
 #define DE2_GPIO_Port GPIOA
-#define EN_12V_Pin LL_GPIO_PIN_2
-#define EN_12V_GPIO_Port GPIOB
+#define RD_EN_Pin LL_GPIO_PIN_2
+#define RD_EN_GPIO_Port GPIOB
 #define PRECHRG_Pin LL_GPIO_PIN_10
 #define PRECHRG_GPIO_Port GPIOB
 #define MAINS_REL_Pin LL_GPIO_PIN_11
