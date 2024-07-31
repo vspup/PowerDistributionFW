@@ -30,7 +30,8 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+#include <stdio.h>
+#include <string.h>
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -102,6 +103,73 @@ void LED_GreenHandler (void)
 }
 uint8_t cntPwrOff = 0;
 uint32_t loop_cnt = 0;
+uint8_t rx_byte;
+uint8_t rx_buff[255]={0};
+uint8_t rx_cnt = 0;
+uint8_t get_cmd = 0;
+char cmd_list[][10]  = {"off",
+                        "bus",
+				        "reboot"};
+
+
+int i = 0;
+uint8_t power_state = 0;
+
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  if(rx_byte == 0x0D)
+  {
+	 for(i = 0; i < 3; i++)
+	 {
+		 char *ptData = NULL;
+		 ptData = strstr((char*)&rx_buff[0], (char*)&cmd_list[i][0]);
+		 if(ptData != NULL)
+		 {
+			 get_cmd = i + 1;
+			 break;
+		 }
+	 }
+	 memset((char*)&rx_buff[0], 0x00, sizeof(rx_buff));
+	 rx_cnt = 0;
+  }
+  else
+  {
+	  rx_buff[rx_cnt++] = rx_byte;
+  }
+  HAL_UART_Receive_IT(&huart2, &rx_byte, 1);
+}
+
+void PowerOn (void)
+{
+	greenLEDState = 2;
+	LL_GPIO_SetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
+	HAL_Delay(TIME_PRECHARGE_OFF);
+	LL_GPIO_SetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
+	power_state = 1;
+}
+
+void PowerOff (void)
+{
+	LL_GPIO_ResetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
+	HAL_Delay(TIME_PRECHARGE_OFF);
+	LL_GPIO_ResetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
+	greenLEDState = 1;
+	power_state = 0;
+}
+
+void Send_RS485_Data (char *buff)
+{
+	uint8_t len = strlen(buff);
+	LL_GPIO_SetOutputPin(DE2_GPIO_Port, DE2_Pin);
+	HAL_Delay(1);
+	HAL_UART_Transmit(&huart2, (uint8_t*)buff, len, len *2);
+	HAL_Delay(1);
+	LL_GPIO_ResetOutputPin(DE2_GPIO_Port, DE2_Pin);
+}
+uint8_t reboot_flag = 0;
+uint8_t reboot_state_off =0;
+uint32_t reboot_time = 0;
 /* USER CODE END 0 */
 
 /**
@@ -110,6 +178,7 @@ uint32_t loop_cnt = 0;
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -133,6 +202,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+  HAL_UART_Receive_IT(&huart2, &rx_byte, 1);
   /* USER CODE BEGIN 2 */
   uint8_t cnt400V[2] = {0};
   while(1)
@@ -188,148 +258,127 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  //if(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) == 0)
-	  //{
-		 /* greenLEDState =0;
-		  HAL_Delay(10);
-		  LL_GPIO_ResetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
-		  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
-		  LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);
+	if(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) == 0)
+	{
+		if(LL_GPIO_IsInputPinSet(RD_EN_GPIO_Port, RD_EN_Pin) == 0)
+		{
+		   while(LL_GPIO_IsInputPinSet(RD_EN_GPIO_Port,RD_EN_Pin) == 0)
+		   {
+			  LL_GPIO_SetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
+			  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
+			  LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);
+		   }
 
-		  LL_GPIO_SetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
-		  LL_GPIO_SetOutputPin(LED_B_GPIO_Port, LED_B_Pin);
-		  HAL_Delay(600);
-		  LL_GPIO_ResetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
-		  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
-		  LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);*/
-		  //HAL_Delay(300);
-		  //if( (counterSwitch > TIME_SWITCH_PRESSHED)&&(leaveSwitch == 0) )
-		  //{
+			  LL_GPIO_ResetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
+			  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
+			  LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);
+			  counterSwitch = 0;
+			  leaveSwitch   = 0;
 
-			 /* if(stateSwitch == 0)
-			  {
-				  stateSwitch = 1;
-				  greenLEDState = 2;
+		}
 
-				LL_GPIO_SetOutputPin(EN_12V_GPIO_Port, EN_12V_Pin);
-				  LL_GPIO_SetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
-				  HAL_Delay(2000);
-				  LL_GPIO_SetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
+		if( (counterSwitch > TIME_SWITCH_PRESSHED)&&(leaveSwitch == 0) )
+		{
+			stateSwitch ^= 1;
 
-			  }
-			  else
-			  {
-				  //LL_GPIO_ResetOutputPin(EN_12V_GPIO_Port, EN_12V_Pin);
-				  //greenLEDState = 1;
-				  greenLEDState =0;
-				  cntPwrOff++;
-				  timeoutPwrOff = 0;
-				  if(cntPwrOff == 1)
-				  {
-					  LL_GPIO_SetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
-					  LL_GPIO_SetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
-				  }
-				  if(cntPwrOff == 2)
-				  {
-				 	  LL_GPIO_SetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
-				  }
-				  if(cntPwrOff == 3)
-				  {
-					  stateSwitch = 0;
-					  cntPwrOff = 0;
-					  greenLEDState = 1;
-					  LL_GPIO_ResetOutputPin(EN_12V_GPIO_Port, EN_12V_Pin);
-					  LL_GPIO_ResetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
-					  HAL_Delay(2000);
-					  LL_GPIO_ResetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
-				  }
-			  }*/
+			if(stateSwitch)
+			{
+				PowerOn ();
+				//HAL_Delay(CYCLES_TIME_ON  * 1000);
+			}
+			else
+			{
+				PowerOff ();
 
-			  if(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) == 0)
-			  {
-				  if(LL_GPIO_IsInputPinSet(RD_EN_GPIO_Port, RD_EN_Pin) == 0)
-				  {
-					  while(LL_GPIO_IsInputPinSet(RD_EN_GPIO_Port,RD_EN_Pin) == 0)
-					  {
-						  LL_GPIO_SetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
-						  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
-						  LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);
-					  }
-
-					  LL_GPIO_ResetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
-					  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
-					  LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);
-					  counterSwitch = 0;
-					  leaveSwitch   = 0;
-
-				  }
-
-
-				  if( (counterSwitch > TIME_SWITCH_PRESSHED)&&(leaveSwitch == 0) )
-				  {
-					  stateSwitch ^= 1;
-
-					  if(stateSwitch)
-					  {
-						  greenLEDState = 2;
-						  //LL_GPIO_SetOutputPin(EN_12V_GPIO_Port, EN_12V_Pin);
-						  LL_GPIO_SetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
-						  HAL_Delay(TIME_PRECHARGE_OFF);
-						  LL_GPIO_SetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
-						  //HAL_Delay(CYCLES_TIME_ON  * 1000);
-
-					  }
-					  else
-					  {
-						  //LL_GPIO_ResetOutputPin(EN_12V_GPIO_Port, EN_12V_Pin);
-						  LL_GPIO_ResetOutputPin(MAINS_REL_GPIO_Port, MAINS_REL_Pin);
-						  HAL_Delay(TIME_PRECHARGE_OFF);
-						  LL_GPIO_ResetOutputPin(PRECHRG_GPIO_Port, PRECHRG_Pin);
-						  greenLEDState = 1;
-						  //HAL_Delay(CYCLES_TIME_OFF  * 1000);
-					  }
-					  leaveSwitch = 1;
-				  }
-			  }
-
-			  /*loop_cnt++;
-			  if(loop_cnt >= (N_LOOP_CYCLES))
-			  {
-				  greenLEDState = 0;
-				  HAL_Delay(10);
-				  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
-
-				  while(LL_GPIO_IsInputPinSet(SWITCH_GPIO_Port,SWITCH_Pin) != 0)
-				  {
-                  }
-
-				  loop_cnt = 0;
-				  //while(1);
-
-			  }*/
-			  else
-			  {
-				  counterSwitch = 0;
-				  leaveSwitch   = 0;
-			  }
-
-			  //leaveSwitch = 1;
-	/*	  }
+				//HAL_Delay(CYCLES_TIME_OFF  * 1000);
+			}
+			leaveSwitch = 1;
+		 }
 	  }
 	  else
 	  {
-		  counterSwitch = 0;
-		  leaveSwitch   = 0;
+		counterSwitch = 0;
+		leaveSwitch   = 0;
 	  }
-	  if((cntPwrOff > 0) && (timeoutPwrOff > 5000))
-	  {
-		  LL_GPIO_ResetOutputPin(LED_R_GPIO_Port, LED_R_Pin);
-		  LL_GPIO_ResetOutputPin(LED_G_GPIO_Port, LED_G_Pin);
-		  LL_GPIO_ResetOutputPin(LED_B_GPIO_Port, LED_B_Pin);
-		  HAL_Delay(50);
-		  cntPwrOff = 0;
-		  greenLEDState = 2;
-	  }*/
+
+	if(get_cmd)
+	{
+		switch(get_cmd)
+		{
+
+			case 1:
+				if(power_state)
+				{
+					if(LL_GPIO_IsInputPinSet(RD_EN_GPIO_Port, RD_EN_Pin) == 0)
+					{
+						Send_RS485_Data("off:-1;");
+					}
+					else
+					{
+						Send_RS485_Data("off:0;");
+						PowerOff ();
+					}
+				}
+				else
+				{
+					Send_RS485_Data("off:1;");
+				}
+			break;
+			case 2:
+				if(LL_GPIO_IsInputPinSet(RD_EN_GPIO_Port, RD_EN_Pin) == 0)
+				{
+					Send_RS485_Data("bus:1;");
+				}
+				else
+				{
+					Send_RS485_Data("bus:0;");
+				}
+			break;
+			case 3:
+				if(LL_GPIO_IsInputPinSet(RD_EN_GPIO_Port, RD_EN_Pin) == 0)
+				{
+					Send_RS485_Data("reboot:-1;");
+				}
+				else
+				{
+					if(reboot_flag)
+					{
+					    Send_RS485_Data("reboot:2;");
+					}
+					else
+					{
+						reboot_flag = 1;
+						reboot_state_off = 1;
+						reboot_time = HAL_GetTick();
+						Send_RS485_Data("reboot:1;");
+					}
+				}
+			break;
+
+		}
+		get_cmd = 0;
+     }
+
+	if(reboot_flag)
+	{
+	   if(reboot_state_off)
+	   {
+		   if(HAL_GetTick() > reboot_time + 30000)
+		   {
+			   reboot_state_off = 0;
+			   PowerOff ();
+		   }
+	   }
+	   else
+	   {
+		   if(HAL_GetTick() > reboot_time + 10000)
+		   {
+			   PowerOn ();
+			   reboot_flag = 0;
+		   }
+	   }
+	}
+
   }
   /* USER CODE END 3 */
 }

@@ -1,4 +1,4 @@
-../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_ll_rcc.h:1931:22:LL_RCC_SetUSARTClockSource	1
-../Core/Src/stm32g0xx_hal_msp.c:64:6:HAL_MspInit	1
+../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_ll_rcc.h:1935:22:LL_RCC_SetUSARTClockSource	1
+../Core/Src/stm32g0xx_hal_msp.c:63:6:HAL_MspInit	1
 ../Core/Src/stm32g0xx_hal_msp.c:86:6:HAL_UART_MspInit	2
-../Core/Src/stm32g0xx_hal_msp.c:124:6:HAL_UART_MspDeInit	2
+../Core/Src/stm32g0xx_hal_msp.c:127:6:HAL_UART_MspDeInit	2
