@@ -1,0 +1,4 @@
+Record=TopLevelDocument|FileName=DB.SchDoc
+Record=SheetSymbol|SourceDocument=DB.SchDoc|Designator=1|SchDesignator=1|FileName=SeriesParallel.SchDoc|SymbolType=Normal|RawFileName=SeriesParallel.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=DB.SchDoc|Designator=2|SchDesignator=2|FileName=SeriesParallel.SchDoc|SymbolType=Normal|RawFileName=SeriesParallel.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=DB.SchDoc|Designator=U_PS|SchDesignator=U_PS|FileName=PS.SchDoc|SymbolType=Normal|RawFileName=PS.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
