@@ -138,6 +138,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			 break;
 		 }
 	 }
+	 if(get_cmd == CMD_NUM)
+	 {
+		get_cmd = 0;
+		char tempBuff[32] = {0};
+		sprintf(tempBuff, "count:%d;", cnt_reboot);
+		Send_RS485_Data(tempBuff);
+
+	 }
 	 memset((char*)&rx_buff[0], 0x00, sizeof(rx_buff));
 	 rx_cnt = 0;
   }
@@ -370,9 +378,9 @@ int main(void)
 				PowerOn ();
 			break;
 			case 5:
-				char tempBuff[32] = {0};
+			/*	char tempBuff[32] = {0};
 				sprintf(tempBuff, "count:%d;", cnt_reboot);
-				Send_RS485_Data(tempBuff);
+				Send_RS485_Data(tempBuff);*/
 			break;
 
 		}
