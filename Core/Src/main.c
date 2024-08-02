@@ -305,7 +305,7 @@ int main(void)
 			}
 			else
 			{
-				cntPwrOff = 0;
+				cnt_reboot = 0;
 				PowerOff ();
 
 				//HAL_Delay(CYCLES_TIME_OFF  * 1000);
