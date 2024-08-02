@@ -125,7 +125,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
   if(rx_byte == 0x0D)
   {
-	 for(i = 0; i < 3; i++)
+	 for(i = 0; i < CMD_NUM; i++)
 	 {
 		 char *ptData = NULL;
 		 ptData = strstr((char*)&rx_buff[0], (char*)&cmd_list[i][0]);

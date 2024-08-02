@@ -1092,7 +1092,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
  8000724:	2b0d      	cmp	r3, #13
  8000726:	d132      	bne.n	800078e <HAL_UART_RxCpltCallback+0x76>
   {
-	 for(i = 0; i < 3; i++)
+	 for(i = 0; i < CMD_NUM; i++)
  8000728:	4b24      	ldr	r3, [pc, #144]	@ (80007bc <HAL_UART_RxCpltCallback+0xa4>)
  800072a:	2200      	movs	r2, #0
  800072c:	601a      	str	r2, [r3, #0]
@@ -1131,7 +1131,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
  8000764:	701a      	strb	r2, [r3, #0]
 			 break;
  8000766:	e008      	b.n	800077a <HAL_UART_RxCpltCallback+0x62>
-	 for(i = 0; i < 3; i++)
+	 for(i = 0; i < CMD_NUM; i++)
  8000768:	4b14      	ldr	r3, [pc, #80]	@ (80007bc <HAL_UART_RxCpltCallback+0xa4>)
  800076a:	681b      	ldr	r3, [r3, #0]
  800076c:	1c5a      	adds	r2, r3, #1
@@ -1139,7 +1139,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
  8000770:	601a      	str	r2, [r3, #0]
  8000772:	4b12      	ldr	r3, [pc, #72]	@ (80007bc <HAL_UART_RxCpltCallback+0xa4>)
  8000774:	681b      	ldr	r3, [r3, #0]
- 8000776:	2b02      	cmp	r3, #2
+ 8000776:	2b04      	cmp	r3, #4
  8000778:	ddda      	ble.n	8000730 <HAL_UART_RxCpltCallback+0x18>
 		 }
 	 }
