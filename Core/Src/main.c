@@ -300,11 +300,12 @@ int main(void)
 			if(stateSwitch)
 			{
 				PowerOn ();
-				cntPwrOff = 0;
+
 				//HAL_Delay(CYCLES_TIME_ON  * 1000);
 			}
 			else
 			{
+				cntPwrOff = 0;
 				PowerOff ();
 
 				//HAL_Delay(CYCLES_TIME_OFF  * 1000);

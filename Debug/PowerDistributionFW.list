@@ -1614,19 +1614,20 @@ int main(void)
  8000a72:	4b6e      	ldr	r3, [pc, #440]	@ (8000c2c <main+0x360>)
  8000a74:	781b      	ldrb	r3, [r3, #0]
  8000a76:	2b00      	cmp	r3, #0
- 8000a78:	d005      	beq.n	8000a86 <main+0x1ba>
+ 8000a78:	d002      	beq.n	8000a80 <main+0x1b4>
 			{
 				PowerOn ();
  8000a7a:	f7ff feab 	bl	80007d4 <PowerOn>
-				cntPwrOff = 0;
- 8000a7e:	4b6c      	ldr	r3, [pc, #432]	@ (8000c30 <main+0x364>)
- 8000a80:	2200      	movs	r2, #0
- 8000a82:	701a      	strb	r2, [r3, #0]
- 8000a84:	e001      	b.n	8000a8a <main+0x1be>
+ 8000a7e:	e004      	b.n	8000a8a <main+0x1be>
+
 				//HAL_Delay(CYCLES_TIME_ON  * 1000);
 			}
 			else
 			{
+				cntPwrOff = 0;
+ 8000a80:	4b6b      	ldr	r3, [pc, #428]	@ (8000c30 <main+0x364>)
+ 8000a82:	2200      	movs	r2, #0
+ 8000a84:	701a      	strb	r2, [r3, #0]
 				PowerOff ();
  8000a86:	f7ff fecb 	bl	8000820 <PowerOff>
 
