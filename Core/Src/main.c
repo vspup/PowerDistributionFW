@@ -107,9 +107,14 @@ uint8_t rx_byte;
 uint8_t rx_buff[255]={0};
 uint8_t rx_cnt = 0;
 uint8_t get_cmd = 0;
-char cmd_list[][10]  = {"off",
-                        "bus",
-				        "reboot"};
+int cnt_reboot= 0;
+
+#define CMD_NUM 5
+char cmd_list[CMD_NUM][10]  = {"off",
+                               "bus",
+				               "reboot",
+                               "on",
+                               "count"};
 
 
 int i = 0;
@@ -316,6 +321,7 @@ int main(void)
 					else
 					{
 						Send_RS485_Data("off:0;");
+						HAL_Delay(30000);
 						PowerOff ();
 					}
 				}
@@ -350,9 +356,19 @@ int main(void)
 						reboot_flag = 1;
 						reboot_state_off = 1;
 						reboot_time = HAL_GetTick();
+						cnt_reboot ++;
 						Send_RS485_Data("reboot:1;");
 					}
 				}
+			break;
+			case 4:
+				Send_RS485_Data("power:on;");
+				PowerOn ();
+			break;
+			case 5:
+				char tempBuff[32] = {0};
+				sprintf(tempBuff, "count:%d", cnt_reboot);
+				Send_RS485_Data(tempBuff);
 			break;
 
 		}
