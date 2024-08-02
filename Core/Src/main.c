@@ -26,6 +26,9 @@
 #define CYCLES_TIME_ON    20  //  sec
 #define CYCLES_TIME_OFF   40  //  sec
 #define TIME_PRECHARGE_OFF     5000  // msec
+
+#define   TIME_POWER_OFF    30000
+#define   TIME_POWER_ON     10000
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -289,6 +292,7 @@ int main(void)
 			if(stateSwitch)
 			{
 				PowerOn ();
+				cntPwrOff = 0;
 				//HAL_Delay(CYCLES_TIME_ON  * 1000);
 			}
 			else
@@ -316,18 +320,18 @@ int main(void)
 				{
 					if(LL_GPIO_IsInputPinSet(RD_EN_GPIO_Port, RD_EN_Pin) == 0)
 					{
-						Send_RS485_Data("off:-1;");
+						Send_RS485_Data("power_off:-1;");
 					}
 					else
 					{
-						Send_RS485_Data("off:0;");
+						Send_RS485_Data("power_off:0;");
 						HAL_Delay(30000);
 						PowerOff ();
 					}
 				}
 				else
 				{
-					Send_RS485_Data("off:1;");
+					Send_RS485_Data("power_off:1;");
 				}
 			break;
 			case 2:
@@ -362,12 +366,12 @@ int main(void)
 				}
 			break;
 			case 4:
-				Send_RS485_Data("power:on;");
+				Send_RS485_Data("power_on:1;");
 				PowerOn ();
 			break;
 			case 5:
 				char tempBuff[32] = {0};
-				sprintf(tempBuff, "count:%d", cnt_reboot);
+				sprintf(tempBuff, "count:%d;", cnt_reboot);
 				Send_RS485_Data(tempBuff);
 			break;
 
@@ -379,15 +383,16 @@ int main(void)
 	{
 	   if(reboot_state_off)
 	   {
-		   if(HAL_GetTick() > reboot_time + 30000)
+		   if(HAL_GetTick() > reboot_time + TIME_POWER_OFF)
 		   {
 			   reboot_state_off = 0;
 			   PowerOff ();
+			   reboot_time = HAL_GetTick();
 		   }
 	   }
 	   else
 	   {
-		   if(HAL_GetTick() > reboot_time + 10000)
+		   if(HAL_GetTick() > reboot_time + TIME_POWER_ON)
 		   {
 			   PowerOn ();
 			   reboot_flag = 0;
